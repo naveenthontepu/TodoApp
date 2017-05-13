@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var bodyParser = require('body-parser');
+var {ObjectID} = require('mongodb');
 
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/Todo');
@@ -31,6 +32,20 @@ app.get('/todos',(req,res)=>{
         res.send({todos});
     },(err) =>{
         res.status(400).send(err);
+    })
+});
+
+app.get('/todos/:id',(req,res)=>{
+    if(!ObjectID.isValid(req.params.id)){
+        return res.status(404).send();
+    }
+    Todo.findById(req.params.id).then((todo)=>{
+        if (todo){
+            return res.send({todo});
+        }
+        return res.status(404).send();
+    },(e)=>{
+        res.status(404).send();
     })
 });
 
