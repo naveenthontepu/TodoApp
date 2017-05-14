@@ -1,6 +1,7 @@
 /**
  * Created by mac on 5/13/17.
  */
+const config = require('./config/config');
 var express = require('express');
 var bodyParser = require('body-parser');
 var {ObjectID} = require('mongodb');
@@ -71,7 +72,7 @@ app.patch('/todos/:id', (req, res)=> {
 });
 
 
-app.listen(3000, ()=> {
+app.listen(process.env.PORT, ()=> {
     console.log('Listening on port 3000');
 });
 
